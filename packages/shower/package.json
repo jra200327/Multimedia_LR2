@@ -47,8 +47,8 @@
 		"pdf": "shower pdf",
 		"start": "shower serve",
 		"dev": "vite",
-		"bundle": "shower bundle --files '**' --files '!{docs,node_modules,slides}{,/**}' --files '!*.{md,toml,json}'",
+		"bundle": "shower bundle --files '**' --files '!{docs,node_modules}{,/**}' --files '!*.{md,toml,json}'",
 		"archive": "shower archive --files '**' --files '!{docs,node_modules,slides}{,/**}' --files '!*.{md,toml,json}'",
-		"pages": "shower pages --files '**' --files '!{docs,node_modules,slides}{,/**}' --files '!*.{md,toml,json}'"
+		"pages": "shower pages --files '**' --files '!{docs,node_modules}{,/**}' --files '!*.{md,toml,json}'"
 	}
 }
