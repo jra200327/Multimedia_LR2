@@ -9,24 +9,68 @@
 		.shower {
 			--slide-ratio: calc(16 / 9);
 		}
+		.slide{
+			background: #332c29;
+			color: #fff;
+		}
+		.slide h2{
+			color: #fff;
+		}
+
+		.slide ul li::before {
+			color: #fff;
+		}
+		.slide ol li::before {
+			color: #fff;
+		}
+
+		.slide li h3 {
+			margin: 0 0 0;
+		}
+		.slide li .subtext {
+			margin: 0;
+			font-size: 1em;
+			color: #bbb;
+			line-height: 1;
+		}
+		.screenshot-slide figure {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			margin: 0;
+			margin-top: 1em;
+		}
+
+		.screenshot-slide figure img {
+			width: 652px !important;
+			height: 367px !important;
+			max-width: 100%;
+			max-height: 60vh;
+			object-fit: contain;
+			border: none;
+			margin: 0;
+		}
+
+		.screenshot-slide figure figcaption {
+			margin-top: 0;
+			font-size: 0.9em;
+			text-align: center;
+			color: #fff;
+		}
 	</style>
 	<script src="node_modules/@shower/core/dist/index.js" defer></script>
 </head>
 <body class="shower list">
 
 	<header class="caption">
-		<h1>Shower Presentation Engine</h1>
-		<p>Yours Truly, Famous Inc.</p>
+		<h1>Веб-презентация</h1>
 	</header>
 
 	<section class="slide" id="cover">
-		<h2>Shower Presentation Engine</h2>
-		<p>Brought to you by <a href="https://pepelsbey.dev/">Vadim Makeev</a></p>
+		<h2>Возможности программных средств создания и обработки видеоизображений</h2>
+		<p>ИУ3-32М Дуданов Ю.В.</p>
 		<figure>
-			<img class="cover" src="pictures/cover.jpg" alt="Hands on the orange typewriter in a park">
-			<figcaption class="copyright right white">
-				<a href="https://fiftyfootshadows.net">© John Carey</a>
-			</figcaption>
+			<img class="cover" src="pictures/cover.jpg" alt="Film lights" style="width: 150%;">
 		</figure>
 		<style>
 			#cover h2 {
@@ -34,6 +78,7 @@
 				color: white;
 				text-align: center;
 				font-size: 70px;
+				text-shadow: 0 0 10px rgba(0,0,0,0.9), 0 0 20px rgba(0,0,0,0.7);
 			}
 
 			#cover p {
@@ -42,6 +87,7 @@
 				color: white;
 				font-style: italic;
 				font-size: 20px;
+				text-shadow: 0 0 10px rgba(0,0,0,0.9), 0 0 20px rgba(0,0,0,0.7);
 			}
 
 			#cover p a {
@@ -50,150 +96,649 @@
 		</style>
 	</section>
 
-	<section class="slide">
-		<h2>Shower key features</h2>
-		<ol>
-			<li>Built on HTML, CSS and JavaScript</li>
-			<li>Works in all modern browsers</li>
-			<li>Themes are separated from engine</li>
-			<li>Fully keyboard accessible</li>
-			<li>Printable to PDF</li>
-		</ol>
-		<p class="note">Shower ['ʃəuə] noun. A person or thing that shows.</p>
-	</section>
-
-	<section class="slide">
-		<h2>Plain text on your slides</h2>
-		<p>Lorem ipsum dolor sit amet, consectetur <a href="#4">adipisicing</a> elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, <em>quis nostrud</em> exercitation ullamco laboris <strong>nisi ut aliquip</strong> ex ea commodo consequat. Duis aute irure <i>dolor</i> in reprehenderit in voluptate velit esse cillum <b>dolore</b> eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in <code>&lt;culpa&gt;</code> qui officia deserunt mollit anim id est laborum.</p>
-	</section>
-
-	<section class="slide">
-		<h2>Two columns if you like</h2>
-		<div class="columns two">
-			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
-			<p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia.</p>
-		</div>
-	</section>
-
-	<section class="slide">
-		<h2>All kind of lists</h2>
-		<ol>
-			<li>Simple lists are marked with bullets</li>
-			<li>Ordered lists begin with a number</li>
-			<li>You can even nest lists one inside another
-				<ul>
-					<li>Or mix their types</li>
-					<li>But do not go too far</li>
-					<li>Otherwise audience will be bored</li>
-				</ul>
-			</li>
-			<li>Look, seven rows exactly!</li>
-		</ol>
-	</section>
-
-	<section class="slide">
-		<h2>Serious citations</h2>
-		<figure>
-			<blockquote>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia.</p>
-			</blockquote>
-			<figcaption>Marcus Tullius Cicero</figcaption>
-		</figure>
-	</section>
-
-	<section class="slide">
-		<h2>Code samples</h2>
-		<pre>
-			<code>&lt;!DOCTYPE html&gt;</code>
-			<code class="mark">&lt;html lang="en"&gt;</code>
-			<code><mark>&lt;head&gt;</mark> <span class="comment">&lt;!--Comment--&gt;</span></code>
-			<code>	&lt;title&gt;Shower&lt;/title&gt;</code>
-			<code>	&lt;meta charset="<mark class="important">UTF-8</mark>"&gt;</code>
-			<code>	&lt;link rel="stylesheet" href="screen.css"&gt;</code>
-			<code><mark>&lt;/head&gt;</mark></code>
-		</pre>
-	</section>
-
-	<section class="slide">
-		<h2>Even tables</h2>
-		<table>
-		<tr>
-			<th scope="col">Locavore</th>
-			<th>Umami</th>
-			<th>Helvetica</th>
-			<th>Vegan</th>
-		</tr>
-		<tr>
-			<th scope="row">Fingerstache</th>
-			<td>Kale</td>
-			<td>Chips</td>
-			<td>Keytar</td>
-		</tr>
-		<tr>
-			<th scope="row">Sriracha</th>
-			<td>Gluten-free</td>
-			<td>Ennui</td>
-			<td>Keffiyeh</td>
-		</tr>
-		<tr>
-			<th scope="row">Thundercats</th>
-			<td>Jean</td>
-			<td>Shorts</td>
-			<td>Biodiesel</td>
-		</tr>
-		<tr>
-			<th scope="row">Terry</th>
-			<td>Richardson</td>
-			<td>Swag</td>
-			<td>Blog</td>
-		</tr>
-		</table>
-		<p>It’s good to have information organized.</p>
-	</section>
-
-	<section class="slide" id="picture">
-		<h2>Pictures</h2>
-		<figure>
-			<img class="cover" src="pictures/picture.jpg" alt="Orange typewriter on a wooden table close-up">
-			<figcaption class="copyright right white">
-				<a href="https://fiftyfootshadows.net">© John Carey</a>
-			</figcaption>
-		</figure>
+	<section class="slide" id="gif-slide">
+		<img class="cover" src="pictures/intro.gif" alt="Анимация">
 		<style>
-			#picture h2 {
-				color: white;
+			#gif-slide {
+				padding: 0;
+			}
+
+			#gif-slide .cover img{
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				position: absolute;
+				top: 0;
+				left: 0;
+				margin: 0;
 			}
 		</style>
 	</section>
 
-	<section class="slide">
-		<h2 class="shout shrink">You can even shout this way</h2>
-	</section>
-
-	<section class="slide">
-		<h2>Inner navigation</h2>
+	<section class="slide" id="contents">
+		<h2>Содержание</h2>
 		<ol>
-			<li>Lets you reveal list items one by one</li>
-			<li class="next">To keep some key points</li>
-			<li class="next">In secret from audience</li>
-			<li class="next">But it will work only once</li>
-			<li class="next">Nobody wants to see the same joke twice</li>
+			<li>
+				<H3>Введение</H3>
+				<p class="subtext">Переход от аналоговой обработке к цифровой</p>
+			</li>
+
+			<li>
+				<H3>Программное обеспечение</H3>
+				<p class="subtext">Популярное ПО для монтажа и обработки изображений</p>
+			</li>
+			<li>
+				<H3>Технологии</H3>
+				<p class="subtext">Наиболее используемые технологии и приемы в кинематографии</p>
+			</li>
+			<li>
+				<H3>Пример пайплайна</H3>
+				<p class="subtext">От идеи до кадра</p>
+			</li>
 		</ol>
+		<style>
+			#contents ol li::before {
+				color: #bdb69d;
+			}
+		</style>
 	</section>
 
-	<section class="slide" id="see-more">
-		<h2 class="shout">
-			<img src="pictures/logo.svg" alt="Shower logo">
-			<a href="https://github.com/shower/shower">See more on GitHub</a>
-		</h2>
+	<section class="slide" id="intro">
+		<h2>Введение</h2>
+		<ol>
+			<li>
+				<b>Аналоговая эпоха (1895–1970):</b> <p>киноплёнка, механический монтаж, оптические спецэффекты.</p>
+			</li>
+			<li>
+				<b>Переходный период (1970–1990):</b> <p>цифровой монтаж, первые технологии CGI, сканирование киноплёнки.</p>
+			</li>
+			<li>
+				<b>Цифровая эпоха:</b> <p>цифровая съёмка, нелинейный монтаж, 3D-анимация, компьютерные визуальные эффекты и рендеринг в реальном времени.</p>
+			</li>
+		</ol>
 		<style>
-			#see-more h2 {
-				font-size: 100px
+			#intro li {
+				margin: 0;
+				padding: 0;
+			}
+			#intro li p {
+				margin: 0;
+				display: inline;
+			}
+		</style>
+	</section>
+
+	<section class="slide" id="classification">
+		<h2>Классификация ПО</h2>
+
+		<ul class="grid-list">
+			<li>
+				<h3>Видеомонтаж</h3>
+				<p>Объединение видеоматериалов, обрезка, переходы</p>
+			</li>
+			<li>
+				<h3>Обработка изображения</h3>
+				<p>Изменение цветовой гаммы, устранение шумов</p>
+			</li>
+			<li>
+				<h3>Визуальные эффекты</h3>
+				<p>Объединение съемки с компьютерной графикой</p>
+			</li>
+			<li>
+				<h3>Анимация</h3>
+				<p>Создание анимированных персонажей, объектов, фильмов</p>
+			</li>
+			<li>
+				<h3>3D-моделирование</h3>
+				<p>Построение и рендеринг сцен</p>
+			</li>
+			<li>
+				<h3>Виртуальное производство</h3>
+				<p>Создание виртуальных декораций, интерактивных сцен и визуальных эффектов в реальном времени.</p>
+			</li>
+		</ul>
+		<style>
+			#classification .grid-list li::before {
+				display: none;
+			}
+			#classification .grid-list {
+				display: grid;
+				grid-template-columns: repeat(3, 1fr);
+				column-gap: 2em;
+				row-gap: 1.5em;
+				list-style: none;
+				padding: 0;
+				margin-top: 2em;
+			}
+			#classification .grid-list li h3 {
+				margin: 0 0 0.5em 0;
+				font-size: 0.8em;
+				font-weight: bold;
+			}
+			#classification .grid-list li p {
+				margin: 0;
+				font-size: 0.65em;
+				line-height: 1.3;
+			}
+		</style>
+	</section>
+
+	<section class="slide screenshot-slide">
+		<h2>ПО для монтажа видео</h2>
+		<figure class="screenshot">
+			<img src="pictures/premier.jpg" alt="Интерфейс Adobe Premier Pro">
+			<figcaption>Интерфейс Adobe Premier Pro</figcaption>
+		</figure>
+	</section>
+
+	<section class="slide screenshot-slide">
+		<h2>ПО для обработки изображений</h2>
+		<figure class="screenshot">
+			<img src="pictures/photoshop.jpg" alt="Интерфейс Adobe Photoshop">
+			<figcaption>Интерфейс Adobe Photoshop</figcaption>
+		</figure>
+	</section>
+
+	<section class="slide screenshot-slide">
+		<h2>ПО для визуальных эффектов</h2>
+		<figure class="screenshot">
+			<img src="pictures/afterEffects.jpg" alt="Интерфейс Adobe After Effects">
+			<figcaption>Интерфейс Adobe After Effects</figcaption>
+		</figure>
+	</section>
+
+	<section class="slide screenshot-slide">
+		<h2>ПО для анимации</h2>
+		<figure class="screenshot">
+			<img src="pictures/maya.jpg" alt="Интерфейс Maya Autodesk">
+			<figcaption>Интерфейс Maya Autodesk</figcaption>
+		</figure>
+	</section>
+
+	<section class="slide screenshot-slide">
+		<h2>ПО для 3D-моделирования</h2>
+		<figure class="screenshot">
+			<img src="pictures/blender.png" alt="Интерфейс Blender">
+			<figcaption>Интерфейс Blender</figcaption>
+		</figure>
+	</section>
+
+	<section class="slide" id="virtual-production">
+		<h2>Виртуальное производство</h2>
+		<p>Совмещение виртуального пространства, компьютерных эффектов с реальной съемкой в реальном времени</p>
+		<img class="slide-img" src="pictures/virtual.jpg" alt="Виртуальное производство">
+		<style>
+			#virtual-production .slide-img {
+				display: block;
+				width: 80%;
+				max-height: 55vh;
+				object-fit: contain;
+				margin: 0.7em auto 0 auto;
+				border: none;
+			}
+			#virtual-production p {
+				margin-bottom: 0;
+				font-size: 0.9em;
+			}
+		</style>
+	</section>
+
+	<section class="slide" id="video-slide">
+		<video class="cover" autoplay muted playsinline>
+			<source src="pictures/virtual.mp4" type="video/mp4">
+			Ваш браузер не поддерживает видео.
+		</video>
+		<style>
+			#video-slide {
+				padding: 0;
+			}
+			#video-slide .cover video{
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				position: absolute;
+				top: 0;
+				left: 0;
+				margin: 0;
+				pointer-events: none;
+			}
+		</style>
+	</section>
+
+	<section class="slide" id="rendering">
+		<h2>Рендеринг</h2>
+		<img class="single-render-img" src="pictures/render.jpg" alt="Виды рендеринга">
+		<style>
+			#rendering .single-render-img {
+				display: block;
+				width: 100%;
+				max-height: 65vh;
+				object-fit: contain;
+				margin: 1.5em auto 0;
+				border: none;
+			}
+		</style>
+	</section>
+
+	<section class="slide" id="video-formats">
+		<h2>Форматы видео</h2>
+
+		<ol class="clean-list">
+			<li><b>Разрешение видео</b>
+				<ul>
+					<li>Full HD (1920 × 1080) — стандартное качество.</li>
+					<li>4K (3840 × 2160) — высокая детализация для кинопроизводства.</li>
+					<li>8K (7680 × 4320) — сверхвысокое разрешение, требующее больших ресурсов.</li>
+				</ul>
+			</li>
+			<li><b>Частота кадров (FPS)</b>
+				<ul>
+					<li>24 FPS — традиционный стандарт кинематографа.</li>
+					<li>30 FPS — телевидение и интернет-видео.</li>
+					<li>60+ FPS — плавное движение и замедленная съёмка.</li>
+				</ul>
+			</li>
+			<li><b>Кодеки и форматы</b>
+				<ul>
+					<li>H.264 / H.265 — эффективное сжатие видео.</li>
+					<li>ProRes / DNxHR — профессиональный монтаж и постпродакшен.</li>
+					<li>RAW — исходные данные для гибкой обработки изображения.</li>
+				</ul>
+			</li>
+		</ol>
+
+		<style>
+			#video-formats .clean-list {
+				margin-top: 0.5em;
+				margin-left: 1.5em;
+				padding-left: 0;
 			}
 
-			#see-more img {
-				width: 0.72em;
-				height: 0.72em;
+			#video-formats .clean-list > li {
+				margin-bottom: 0.6em;
+				font-size: 0.85em;
+				line-height: 1.2;
+			}
+
+			#video-formats .clean-list ul {
+				margin-top: 0.3em;
+				margin-left: 1.5em;
+				padding-left: 0;
+			}
+
+			#video-formats .clean-list ul li {
+				font-size: 0.85em;
+				margin-bottom: 0.1em;
+				line-height: 1.2;
+			}
+
+			#video-formats .clean-list ul li::before {
+				display: none;
+			}
+		</style>
+	</section>
+
+	<section class="slide" id="video-formats-table">
+		<h2>Сравнение видеоформатов</h2>
+
+		<table class="format-table">
+			<thead>
+			<tr>
+				<th>Формат</th>
+				<th>Сжатие</th>
+				<th>Качество</th>
+				<th>Основное применение</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr>
+				<td>MP4 (H.264)</td>
+				<td>Высокое</td>
+				<td>Хорошее</td>
+				<td>Интернет, YouTube, распространение видео</td>
+			</tr>
+			<tr>
+				<td>MP4 (H.265/HEVC)</td>
+				<td>Очень высокое</td>
+				<td>Высокое</td>
+				<td>4K/8K, HDR, потоковое видео</td>
+			</tr>
+			<tr>
+				<td>MOV (ProRes)</td>
+				<td>Низкое / умеренное</td>
+				<td>Очень высокое</td>
+				<td>Монтаж и постобработка кино</td>
+			</tr>
+			<tr>
+				<td>MXF (DNxHR)</td>
+				<td>Низкое / умеренное</td>
+				<td>Очень высокое</td>
+				<td>Профессиональный монтаж и телевидение</td>
+			</tr>
+			<tr>
+				<td>RAW</td>
+				<td>Минимальное или отсутствует</td>
+				<td>Максимальная гибкость обработки</td>
+				<td>Съёмка кино, цветокоррекция и VFX</td>
+			</tr>
+			<tr>
+				<td>AVI</td>
+				<td>Зависит от кодека</td>
+				<td>Зависит от кодека</td>
+				<td>Архивирование и обработка видео</td>
+			</tr>
+			</tbody>
+		</table>
+
+		<style>
+			#video-formats-table table.format-table {
+				width: 100%;
+				margin: 1em auto 0 auto;
+				border-collapse: collapse;
+				font-size: 0.65em;
+				line-height: 1.3;
+				table-layout: auto;
+			}
+
+			#video-formats-table table.format-table th,
+			#video-formats-table table.format-table td {
+				padding: 0.8em 0.5em;
+				text-align: left;
+				vertical-align: middle;
+				border: none;
+			}
+
+			#video-formats-table table.format-table th {
+				font-weight: bold;
+				color: #fff;
+				border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+				padding-bottom: 0.5em;
+			}
+
+			#video-formats-table table.format-table tr {
+				border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+			}
+
+			#video-formats-table table.format-table td:first-child {
+				font-weight: bold;
+				white-space: nowrap;
+			}
+		</style>
+	</section>
+
+	<section class="slide" id="vfx-techniques">
+		<h2>Основные приемы создания VFX</h2>
+
+		<ol class="vfx-list">
+			<li><b>Хромакей</b> - удаление однотонного фона и замена его другим изображением или видео.</li>
+			<li><b>Ротоскопинг</b> - покадровое выделение объектов для отделения их от фона или создания анимации.</li>
+			<li><b>Композиция</b> - объединение нескольких видео, изображений и графических элементов в одну сцену.</li>
+			<li><b>Трекинг движения</b> - отслеживание перемещения объектов или камеры для привязки графики к движению.</li>
+			<li><b>Компьютерная графика</b> - добавление или создание цифровых объектов, частиц, взрывов, дыма и других элементов. Типографика и анимированная графика - создание движущихся надписей, титров, логотипов и инфографики.</li>
+		</ol>
+
+		<style>
+			#vfx-techniques .vfx-list {
+				margin-top: 1.5em;
+				margin-left: 2em;
+				padding-left: 0;
+			}
+
+			#vfx-techniques .vfx-list li {
+				font-size: 0.85em;
+				line-height: 1.3;
+				margin-bottom: 0.6em;
+			}
+		</style>
+	</section>
+
+	<section class="slide" id="pipeline">
+		<h2>Пример пайплайна</h2>
+
+		<div class="pipeline">
+
+			<!-- Линия таймлайна-змейки -->
+			<svg class="pipeline-line"
+				 viewBox="0 0 1000 360"
+				 preserveAspectRatio="none"
+				 aria-hidden="true">
+				<path d="
+                M 125 50
+                H 975
+                V 190
+                H 35
+                V 245
+                H 875
+            " />
+			</svg>
+
+			<!-- Верхний ряд -->
+			<div class="pipeline-row pipeline-top">
+
+				<div class="pipeline-step">
+					<span class="marker"></span>
+					<span class="stem"></span>
+					<span class="small-dot"></span>
+					<span class="label">Описание идеи</span>
+				</div>
+
+				<div class="pipeline-step">
+					<span class="marker"></span>
+					<span class="stem"></span>
+					<span class="small-dot"></span>
+					<span class="label">Раскадровка</span>
+				</div>
+
+				<div class="pipeline-step">
+					<span class="marker"></span>
+					<span class="stem"></span>
+					<span class="small-dot"></span>
+					<span class="label">Аниматик</span>
+				</div>
+
+				<div class="pipeline-step">
+					<span class="marker"></span>
+					<span class="stem"></span>
+					<span class="small-dot"></span>
+					<span class="label">Съемка</span>
+				</div>
+
+			</div>
+
+			<!-- Нижний ряд -->
+			<div class="pipeline-row pipeline-bottom">
+
+				<div class="pipeline-step">
+					<span class="marker"></span>
+					<span class="stem"></span>
+					<span class="small-dot"></span>
+					<span class="label">
+                    Создание<br>
+                    виртуального<br>
+                    окружения
+                </span>
+				</div>
+
+				<div class="pipeline-step">
+					<span class="marker"></span>
+					<span class="stem"></span>
+					<span class="small-dot"></span>
+					<span class="label">Композитинг</span>
+				</div>
+
+				<div class="pipeline-step">
+					<span class="marker"></span>
+					<span class="stem"></span>
+					<span class="small-dot"></span>
+					<span class="label">Постобработка</span>
+				</div>
+
+				<div class="pipeline-step">
+					<span class="marker"></span>
+					<span class="stem"></span>
+					<span class="small-dot"></span>
+					<span class="label">Рендер</span>
+				</div>
+
+			</div>
+		</div>
+
+		<style>
+			#pipeline {
+				--line-color: #bdb69d;
+				--point-color: #e00012;
+				--text-color: #ffffff;
+
+				position: relative;
+			}
+
+			#pipeline .pipeline {
+				position: relative;
+				width: 92%;
+				height: 360px;
+				margin: 30px auto 0;
+			}
+
+			/* Непрерывная линия-змейка */
+			#pipeline .pipeline-line {
+				position: absolute;
+				inset: 0;
+				width: 100%;
+				height: 100%;
+				overflow: visible;
+				z-index: 0;
+				pointer-events: none;
+			}
+
+			#pipeline .pipeline-line path {
+				fill: none;
+				stroke: var(--line-color);
+				stroke-width: 1.3;
+				vector-effect: non-scaling-stroke;
+				stroke-linejoin: miter;
+				stroke-linecap: square;
+			}
+
+			/* Сетка этапов */
+			#pipeline .pipeline-row {
+				position: absolute;
+				left: 0;
+				width: 100%;
+				display: grid;
+				grid-template-columns: repeat(4, minmax(0, 1fr));
+				z-index: 1;
+			}
+
+			#pipeline .pipeline-top .marker {
+				top: 50px;
+				transform: translate(-50%, -50%);
+			}
+
+			#pipeline .pipeline-bottom {
+				top: 245px;
+			}
+
+			#pipeline .pipeline-step {
+				position: relative;
+				min-width: 0;
+				height: 1px;
+				text-align: center;
+			}
+
+			/* Большая красная точка */
+			#pipeline .marker {
+				position: absolute;
+				left: 50%;
+				top: 50px;
+				width: 19px;
+				height: 19px;
+				background: var(--point-color);
+				border-radius: 50%;
+				transform: translate(-50%, -50%);
+				z-index: 3;
+			}
+
+			#pipeline .pipeline-bottom .marker {
+				top: 0;
+				transform: translate(-50%, -50%);
+			}
+
+			#pipeline .pipeline-top .pipeline-step:last-child .marker {
+				top: 50px;
+				transform: translate(-50%, -50%);
+			}
+
+			/* Вертикальный отрезок */
+			#pipeline .stem {
+				position: absolute;
+				left: 50%;
+				top: 50px;
+				width: 1px;
+				height: 39px;
+				background: var(--line-color);
+				transform: translateX(-50%);
+			}
+
+			#pipeline .pipeline-bottom .stem {
+				top: 0;
+			}
+
+			/* Маленькая точка под отрезком */
+			#pipeline .small-dot {
+				position: absolute;
+				left: 50%;
+				top: 89px;
+				width: 7px;
+				height: 7px;
+				background: var(--line-color);
+				border-radius: 50%;
+				transform: translate(-50%, -50%);
+			}
+
+			#pipeline .pipeline-bottom .small-dot {
+				top: 39px;
+			}
+
+			/* Подписи этапов */
+			#pipeline .label {
+				position: absolute;
+				left: 50%;
+				top: 106px;
+				width: 96%;
+				transform: translateX(-50%);
+				color: var(--text-color);
+				font-size: 0.65em;
+				font-weight: 700;
+				line-height: 1.4;
+				text-align: center;
+				white-space: normal;
+			}
+
+			#pipeline .pipeline-bottom .label {
+				top: 52px;
+			}
+		</style>
+	</section>
+
+	<section class="slide" id="conclusion">
+		<h2>Вывод</h2>
+
+		<div class="conclusion-text">
+			<p>Программные средства создания и обработки видеоизображений играют важную роль в современном кинематографе и анимации. Развитие технологий рендеринга, виртуального производства и искусственного интеллекта расширяет творческие возможности и повышает эффективность кинопроизводства. При этом качество конечного результата зависит не только от технических возможностей программ, но и от профессионализма специалистов и их художественных решений.</p>
+			<p>Таким образом, современные программные средства являются неотъемлемой частью киноиндустрии, объединяя технологии и творчество для создания реалистичных, выразительных и визуально сложных произведений.</p>
+		</div>
+
+		<style>
+			#conclusion .conclusion-text {
+				margin-top: 1.5em;
+				padding: 0 1em;
+			}
+
+			#conclusion .conclusion-text p {
+				font-size: 0.8em;
+				line-height: 1.4;
+				margin-bottom: 1em;
+				text-align: justify;
 			}
 		</style>
 	</section>
