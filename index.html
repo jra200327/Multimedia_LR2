@@ -1,479 +1,948 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-	<title>Веб-презентация</title>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, viewport-fit=cover">
-	
-	<style>
-		/* ========================================= */
-		/* СБРОС И БАЗОВАЯ СЕТКА                     */
-		/* ========================================= */
-		* { box-sizing: border-box; margin: 0; padding: 0; }
-		
-		body {
-			font-family: 'PT Sans', 'Arial', sans-serif;
-			background: #000;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			height: 100vh;
-			overflow: hidden;
-		}
+    <title>Веб-презентация</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, viewport-fit=cover">
 
-		/* Контейнер 16:9 */
-		.shower {
-			position: relative;
-			width: 100vw;
-			height: 56.25vw;
-			max-height: 100vh;
-			max-width: 177.78vh;
-			background: #332c29;
-			color: #fff;
-			overflow: hidden;
-		}
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-		/* Слайды */
-		.slide {
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			padding: 4% 6%;
-			/* Железобетонное скрытие */
-			display: none !important; 
-			font-size: 1.8vh;
-			line-height: 1.4;
-			z-index: 1;
-		}
+        body {
+            font-family: 'PT Sans', 'Arial', sans-serif;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+        }
 
-		/* Показываем ТОЛЬКО активный слайд */
-		.slide.active {
-			display: block !important;
-			z-index: 2;
-		}
+        /* Контейнер 16:9 */
+        .shower {
+            position: relative;
+            width: 100vw;
+            height: 56.25vw;
+            max-height: 100vh;
+            max-width: 177.78vh;
+            background: #332c29;
+            color: #fff;
+            overflow: hidden;
+        }
 
-		/* ========================================= */
-		/* ТИПОГРАФИКА                               */
-		/* ========================================= */
-		.slide h2 { font-size: 3em; margin-bottom: 0.5em; line-height: 1.1; font-weight: bold; }
-		.slide h3 { font-size: 1.2em; margin-bottom: 0.2em; }
-		.slide p { margin-bottom: 1em; }
-		.slide b { font-weight: bold; }
-		
-		.slide ul, .slide ol { margin-left: 2em; margin-bottom: 1em; }
-		.slide ul li { list-style: none; position: relative; margin-bottom: 0.5em; }
-		.slide ul li::before { content: ''; position: absolute; left: -1em; top: 0.6em; width: 0.4em; height: 0.4em; background: #fff; border-radius: 50%; }
-		.slide ol { list-style: decimal; }
-		.slide ol li { margin-bottom: 0.5em; margin-left: 1em; padding-left: 0.5em; }
+        /* Слайды */
+        .slide {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            padding: 4% 6%;
+            display: none !important;
+            font-size: 1.8vh;
+            line-height: 1.4;
+            z-index: 1;
+        }
 
-		.subtext { font-size: 0.6em; color: #bbb; line-height: 1.2; display: block; }
+        .slide.active {
+            display: block !important;
+            z-index: 2;
+        }
 
-		/* ========================================= */
-		/* ИНДИВИДУАЛЬНЫЕ СЛАЙДЫ                     */
-		/* ========================================= */
-		
-		/* Обложка */
-		#cover { text-align: center; }
-		#cover.active { display: flex !important; flex-direction: column; justify-content: center; align-items: center; }
-		#cover h2 { font-size: 3em; text-shadow: 0 0 10px rgba(0,0,0,0.9); margin-bottom: 0.2em; }
-		#cover p { font-size: 1.2em; font-style: italic; text-shadow: 0 0 10px rgba(0,0,0,0.9); }
-		#cover img { max-width: 60%; max-height: 45%; object-fit: contain; margin-top: 1em; display: block; }
+        /* Типографика */
+        .slide h2 {
+            font-size: 3em;
+            margin-bottom: 0.5em;
+            line-height: 1.1;
+            font-weight: bold;
+        }
 
-		/* GIF и видео */
-		#gif-slide.active, #video-slide.active { padding: 0; display: block !important; }
-		#gif-slide img, #video-slide video { width: 100%; height: 100%; object-fit: cover; }
+        .slide h3 {
+            font-size: 1.2em;
+            margin-bottom: 0.2em;
+        }
 
-		/* Сетка */
-		#classification .grid-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2em; margin-top: 1em; }
-		#classification .grid-list li::before { display: none; }
-		#classification .grid-list li h3 { font-size: 1.1em; font-weight: bold; }
-		#classification .grid-list li p { font-size: 0.7em; color: #ccc; }
+        .slide p {
+            margin-bottom: 1em;
+        }
 
-		/* Скриншоты (жестко центрированы, без растягивания) */
-		.screenshot-slide.active { display: flex !important; flex-direction: column; }
-		.screenshot-slide h2 { flex-shrink: 0; }
-		.screenshot-slide figure { 
-			display: flex; 
-			flex-direction: column; 
-			align-items: center; 
-			justify-content: center;
-			height: 100%;
-			margin: 0; 
-		}
-		.screenshot-slide figure img { 
-			max-width: 90%; 
-			max-height: 70%; /* Картинка не вылезет */
-			object-fit: contain; 
-			border-radius: 5px;
-		}
-		.screenshot-slide figure figcaption { margin-top: 1em; font-size: 0.8em; }
+        .slide b {
+            font-weight: bold;
+        }
 
-		/* Прочие картинки */
-		#virtual-production img { display: block; max-width: 80%; max-height: 60%; object-fit: contain; margin: 1em auto 0; }
-		#rendering img { display: block; max-width: 100%; max-height: 70%; object-fit: contain; margin: 1em auto 0; }
+        .slide ul,
+        .slide ol {
+            margin-left: 2em;
+            margin-bottom: 1em;
+        }
 
-		/* Таблица */
-		#video-formats-table table { width: 100%; border-collapse: collapse; font-size: 0.65em; margin-top: 1em; }
-		#video-formats-table th, #video-formats-table td { padding: 0.8em; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1); }
-		#video-formats-table th { border-bottom: 2px solid rgba(255,255,255,0.3); }
+        .slide ul li {
+            list-style: none;
+            position: relative;
+            margin-bottom: 0.5em;
+        }
 
-		/* Пайплайн */
-		#pipeline {
-				--line-color: #bdb69d;
-				--point-color: #e00012;
-				--text-color: #ffffff;
+        .slide ul li::before {
+            content: '';
+            position: absolute;
+            left: -1em;
+            top: 0.6em;
+            width: 0.4em;
+            height: 0.4em;
+            background: #fff;
+            border-radius: 50%;
+        }
 
-				position: relative;
-			}
+        .slide ol {
+            list-style: decimal;
+        }
 
-			#pipeline .pipeline {
-				position: relative;
-				width: 92%;
-				height: 360px;
-				margin: 30px auto 0;
-			}
+        .slide ol li {
+            margin-bottom: 0.5em;
+            margin-left: 1em;
+            padding-left: 0.5em;
+        }
 
-			/* Непрерывная линия-змейка */
-			#pipeline .pipeline-line {
-				position: absolute;
-				inset: 0;
-				width: 100%;
-				height: 100%;
-				overflow: visible;
-				z-index: 0;
-				pointer-events: none;
-			}
+        .subtext {
+            font-size: 0.6em;
+            color: #bbb;
+            line-height: 1.2;
+            display: block;
+        }
 
-			#pipeline .pipeline-line path {
-				fill: none;
-				stroke: var(--line-color);
-				stroke-width: 1.3;
-				vector-effect: non-scaling-stroke;
-				stroke-linejoin: miter;
-				stroke-linecap: square;
-			}
+        /* ========================================= */
+        /* ОБЛОЖКА                                   */
+        /* ========================================= */
 
-			/* Сетка этапов */
-			#pipeline .pipeline-row {
-				position: absolute;
-				left: 0;
-				width: 100%;
-				display: grid;
-				grid-template-columns: repeat(4, minmax(0, 1fr));
-				z-index: 1;
-			}
+        #cover {
+            padding: 0;
+            text-align: center;
+            overflow: hidden;
+        }
 
-			#pipeline .pipeline-top .marker {
-				top: 50px;
-				transform: translate(-50%, -50%);
-			}
+        #cover.active {
+            display: flex !important;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
 
-			#pipeline .pipeline-bottom {
-				top: 245px;
-			}
+        /* Изображение на весь экран */
+        #cover img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            max-width: none;
+            max-height: none;
+            object-fit: cover;
+            object-position: center;
+            margin: 0;
+            z-index: 0;
+        }
 
-			#pipeline .pipeline-step {
-				position: relative;
-				min-width: 0;
-				height: 1px;
-				text-align: center;
-			}
+        /* Затемнение для читаемости текста */
+        #cover::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.38);
+            z-index: 1;
+        }
 
-			/* Большая красная точка */
-			#pipeline .marker {
-				position: absolute;
-				left: 50%;
-				top: 50px;
-				width: 19px;
-				height: 19px;
-				background: var(--point-color);
-				border-radius: 50%;
-				transform: translate(-50%, -50%);
-				z-index: 3;
-			}
+        #cover h2 {
+            position: relative;
+            z-index: 2;
+            width: 85%;
+            font-size: 3em;
+            line-height: 1.2;
+            color: white;
+            text-shadow:
+                0 0 10px rgba(0, 0, 0, 0.9),
+                0 0 20px rgba(0, 0, 0, 0.7);
+            margin-bottom: 0.4em;
+        }
 
-			#pipeline .pipeline-bottom .marker {
-				top: 0;
-				transform: translate(-50%, -50%);
-			}
+        #cover p {
+            position: relative;
+            z-index: 2;
+            font-size: 1.2em;
+            font-style: italic;
+            color: white;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
+        }
 
-			#pipeline .pipeline-top .pipeline-step:last-child .marker {
-				top: 50px;
-				transform: translate(-50%, -50%);
-			}
+        /* ========================================= */
+        /* GIF И ВИДЕО                               */
+        /* ========================================= */
 
-			/* Вертикальный отрезок */
-			#pipeline .stem {
-				position: absolute;
-				left: 50%;
-				top: 50px;
-				width: 1px;
-				height: 39px;
-				background: var(--line-color);
-				transform: translateX(-50%);
-			}
+        #gif-slide.active,
+        #video-slide.active {
+            padding: 0;
+            display: block !important;
+        }
 
-			#pipeline .pipeline-bottom .stem {
-				top: 0;
-			}
+        #gif-slide img,
+        #video-slide video {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            margin: 0;
+        }
 
-			/* Маленькая точка под отрезком */
-			#pipeline .small-dot {
-				position: absolute;
-				left: 50%;
-				top: 89px;
-				width: 7px;
-				height: 7px;
-				background: var(--line-color);
-				border-radius: 50%;
-				transform: translate(-50%, -50%);
-			}
+        /* ========================================= */
+        /* КЛАССИФИКАЦИЯ                             */
+        /* ========================================= */
 
-			#pipeline .pipeline-bottom .small-dot {
-				top: 39px;
-			}
+        #classification .grid-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2em;
+            margin-top: 1em;
+        }
 
-			/* Подписи этапов */
-			#pipeline .label {
-				position: absolute;
-				left: 50%;
-				top: 106px;
-				width: 96%;
-				transform: translateX(-50%);
-				color: var(--text-color);
-				font-size: 0.65em;
-				font-weight: 700;
-				line-height: 1.4;
-				text-align: center;
-				white-space: normal;
-			}
+        #classification .grid-list li::before {
+            display: none;
+        }
 
-			#pipeline .pipeline-bottom .label {
-				top: 52px;
-			}
+        #classification .grid-list li h3 {
+            font-size: 1.1em;
+            font-weight: bold;
+        }
 
-		/* Интерфейс */
-		.badge { position: absolute; top: 0; right: 0; z-index: 10; }
-		.badge a { display: block; padding: 10px 20px; background: #e00012; color: #fff; text-decoration: none; font-size: 14px; font-weight: bold; }
-		.progress { position: absolute; bottom: 0; left: 0; height: 4px; background: #e00012; transition: width 0.3s; z-index: 100; }
-	</style>
+        #classification .grid-list li p {
+            font-size: 0.7em;
+            color: #ccc;
+        }
+
+        /* ========================================= */
+        /* СКРИНШОТЫ                                 */
+        /* ========================================= */
+
+        .screenshot-slide.active {
+            display: flex !important;
+            flex-direction: column;
+        }
+
+        .screenshot-slide h2 {
+            flex-shrink: 0;
+        }
+
+        .screenshot-slide figure {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            min-height: 0;
+            margin: 0;
+        }
+
+        .screenshot-slide figure img {
+            max-width: 95%;
+            max-height: 75%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            border-radius: 5px;
+        }
+
+        .screenshot-slide figure figcaption {
+            margin-top: 1em;
+            font-size: 0.8em;
+        }
+
+        /* ========================================= */
+        /* ВИРТУАЛЬНОЕ ПРОИЗВОДСТВО                  */
+        /* ========================================= */
+
+        #virtual-production img {
+            display: block;
+            max-width: 80%;
+            max-height: 60%;
+            object-fit: contain;
+            margin: 1em auto 0;
+        }
+
+        /* ========================================= */
+        /* РЕНДЕРИНГ                                 */
+        /* ========================================= */
+
+        #rendering img {
+            display: block;
+            width: 100%;
+            max-height: 75%;
+            object-fit: contain;
+            margin: 1em auto 0;
+        }
+
+        /* ========================================= */
+        /* ТАБЛИЦА                                   */
+        /* ========================================= */
+
+        #video-formats-table table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.65em;
+            margin-top: 1em;
+        }
+
+        #video-formats-table th,
+        #video-formats-table td {
+            padding: 0.8em;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        #video-formats-table th {
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* ========================================= */
+        /* ПАЙПЛАЙН                                  */
+        /* ========================================= */
+
+        #pipeline {
+            --line-color: #bdb69d;
+            --point-color: #e00012;
+            --text-color: #ffffff;
+        }
+
+        #pipeline .pipeline {
+            position: relative;
+            width: 92%;
+            height: 300px;
+            margin: 30px auto 0;
+        }
+
+        /* SVG-змейка */
+        #pipeline .pipeline-line {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        #pipeline .pipeline-line path {
+            fill: none;
+            stroke: var(--line-color);
+            stroke-width: 1.3;
+            vector-effect: non-scaling-stroke;
+            stroke-linejoin: round;
+            stroke-linecap: square;
+        }
+
+        /* Сетка этапов */
+        #pipeline .pipeline-row {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            z-index: 1;
+        }
+
+        /* Координаты рядов синхронизированы с SVG */
+        #pipeline .pipeline-top {
+            top: 40px;
+        }
+
+        #pipeline .pipeline-bottom {
+            top: 180px;
+        }
+
+        #pipeline .pipeline-step {
+            position: relative;
+            min-width: 0;
+            height: 1px;
+            text-align: center;
+        }
+
+        /* Красные точки */
+        #pipeline .marker {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            width: 19px;
+            height: 19px;
+            background: var(--point-color);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 3;
+        }
+
+        /* Вертикальные отрезки */
+        #pipeline .stem {
+            position: absolute;
+            left: 50%;
+            top: 10px;
+            width: 1px;
+            height: 28px;
+            background: var(--line-color);
+            transform: translateX(-50%);
+        }
+
+        /* Маленькие точки */
+        #pipeline .small-dot {
+            position: absolute;
+            left: 50%;
+            top: 38px;
+            width: 6px;
+            height: 6px;
+            background: var(--line-color);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Подписи этапов */
+        #pipeline .label {
+            position: absolute;
+            left: 50%;
+            top: 47px;
+            width: 96%;
+            transform: translateX(-50%);
+            color: var(--text-color);
+            font-size: 0.65em;
+            font-weight: 700;
+            line-height: 1.4;
+            text-align: center;
+            white-space: normal;
+        }
+
+        /*
+         * Маршрут:
+         * 1. Верхняя горизонтальная линия проходит через верхние точки.
+         * 2. Спуск расположен правее последней точки.
+         * 3. Средняя линия проходит между рядами.
+         * 4. Второй спуск расположен левее первой нижней точки.
+         * 5. Нижний участок заканчивается до нижнего ряда точек.
+         *
+         * Ни одна точка не находится на вертикальных спусках.
+         */
+        #pipeline .pipeline-line path {
+            d: path("M 125 40 H 950 V 130 H 50 V 160 H 875");
+        }
+
+        /* ========================================= */
+        /* ИНТЕРФЕЙС                                 */
+        /* ========================================= */
+
+        .badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            z-index: 10;
+        }
+
+        .badge a {
+            display: block;
+            padding: 10px 20px;
+            background: #e00012;
+            color: #fff;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 4px;
+            background: #e00012;
+            transition: width 0.3s;
+            z-index: 100;
+        }
+
+        /* ========================================= */
+        /* АДАПТИВНОСТЬ                              */
+        /* ========================================= */
+
+        @media (max-width: 700px) {
+            #cover h2 {
+                font-size: 2em;
+            }
+
+            #pipeline .pipeline {
+                width: 96%;
+            }
+
+            #pipeline .label {
+                font-size: 0.55em;
+            }
+        }
+    </style>
 </head>
+
 <body>
 
-	<div class="shower">
-		
-		<!-- Первый слайд по умолчанию active -->
-		<section class="slide active" id="cover">
-			<h2>Возможности программных средств создания и обработки видеоизображений</h2>
-			<p>ИУ3-32М Дуданов Ю.В.</p>
-			<img src="pictures/cover.jpg" alt="Film lights">
-		</section>
+<div class="shower">
 
-		<section class="slide" id="gif-slide">
-			<img src="pictures/intro.gif" alt="Анимация">
-		</section>
+    <!-- Обложка -->
+    <section class="slide active" id="cover">
+        <img src="pictures/cover.jpg" alt="Film lights">
+        <h2>Возможности программных средств создания и обработки видеоизображений</h2>
+        <p>ИУ3-32М Дуданов Ю.В.</p>
+    </section>
 
-		<section class="slide" id="contents">
-			<h2>Содержание</h2>
-			<ol>
-				<li><h3>Введение</h3><p class="subtext">Переход от аналоговой обработке к цифровой</p></li>
-				<li><h3>Программное обеспечение</h3><p class="subtext">Популярное ПО для монтажа и обработки изображений</p></li>
-				<li><h3>Технологии</h3><p class="subtext">Наиболее используемые технологии и приемы в кинематографии</p></li>
-				<li><h3>Пример пайплайна</h3><p class="subtext">От идеи до кадра</p></li>
-			</ol>
-		</section>
+    <!-- GIF -->
+    <section class="slide" id="gif-slide">
+        <img src="pictures/intro.gif" alt="Анимация">
+    </section>
 
-		<section class="slide" id="intro">
-			<h2>Введение</h2>
-			<ol>
-				<li><b>Аналоговая эпоха (1895–1970):</b> киноплёнка, механический монтаж, оптические спецэффекты.</li>
-				<li><b>Переходный период (1970–1990):</b> цифровой монтаж, первые технологии CGI, сканирование киноплёнки.</li>
-				<li><b>Цифровая эпоха:</b> цифровая съёмка, нелинейный монтаж, 3D-анимация, компьютерные визуальные эффекты и рендеринг в реальном времени.</li>
-			</ol>
-		</section>
+    <!-- Содержание -->
+    <section class="slide" id="contents">
+        <h2>Содержание</h2>
+        <ol>
+            <li>
+                <h3>Введение</h3>
+                <p class="subtext">Переход от аналоговой обработке к цифровой</p>
+            </li>
+            <li>
+                <h3>Программное обеспечение</h3>
+                <p class="subtext">Популярное ПО для монтажа и обработки изображений</p>
+            </li>
+            <li>
+                <h3>Технологии</h3>
+                <p class="subtext">Наиболее используемые технологии и приемы в кинематографии</p>
+            </li>
+            <li>
+                <h3>Пример пайплайна</h3>
+                <p class="subtext">От идеи до кадра</p>
+            </li>
+        </ol>
+    </section>
 
-		<section class="slide" id="classification">
-			<h2>Классификация ПО</h2>
-			<ul class="grid-list">
-				<li><h3>Видеомонтаж</h3><p>Объединение видеоматериалов, обрезка, переходы</p></li>
-				<li><h3>Обработка изображения</h3><p>Изменение цветовой гаммы, устранение шумов</p></li>
-				<li><h3>Визуальные эффекты</h3><p>Объединение съемки с компьютерной графикой</p></li>
-				<li><h3>Анимация</h3><p>Создание анимированных персонажей, объектов, фильмов</p></li>
-				<li><h3>3D-моделирование</h3><p>Построение и рендеринг сцен</p></li>
-				<li><h3>Виртуальное производство</h3><p>Создание виртуальных декораций, интерактивных сцен и визуальных эффектов в реальном времени.</p></li>
-			</ul>
-		</section>
+    <!-- Введение -->
+    <section class="slide" id="intro">
+        <h2>Введение</h2>
+        <ol>
+            <li>
+                <b>Аналоговая эпоха (1895–1970):</b>
+                киноплёнка, механический монтаж, оптические спецэффекты.
+            </li>
+            <li>
+                <b>Переходный период (1970–1990):</b>
+                цифровой монтаж, первые технологии CGI, сканирование киноплёнки.
+            </li>
+            <li>
+                <b>Цифровая эпоха:</b>
+                цифровая съёмка, нелинейный монтаж, 3D-анимация,
+                компьютерные визуальные эффекты и рендеринг в реальном времени.
+            </li>
+        </ol>
+    </section>
 
-		<section class="slide screenshot-slide">
-			<h2>ПО для монтажа видео</h2>
-			<figure><img src="pictures/premier.jpg" alt="Premier Pro"><figcaption>Интерфейс Adobe Premier Pro</figcaption></figure>
-		</section>
+    <!-- Классификация ПО -->
+    <section class="slide" id="classification">
+        <h2>Классификация ПО</h2>
+        <ul class="grid-list">
+            <li>
+                <h3>Видеомонтаж</h3>
+                <p>Объединение видеоматериалов, обрезка, переходы</p>
+            </li>
+            <li>
+                <h3>Обработка изображения</h3>
+                <p>Изменение цветовой гаммы, устранение шумов</p>
+            </li>
+            <li>
+                <h3>Визуальные эффекты</h3>
+                <p>Объединение съемки с компьютерной графикой</p>
+            </li>
+            <li>
+                <h3>Анимация</h3>
+                <p>Создание анимированных персонажей, объектов, фильмов</p>
+            </li>
+            <li>
+                <h3>3D-моделирование</h3>
+                <p>Построение и рендеринг сцен</p>
+            </li>
+            <li>
+                <h3>Виртуальное производство</h3>
+                <p>Создание виртуальных декораций, интерактивных сцен и визуальных эффектов в реальном времени.</p>
+            </li>
+        </ul>
+    </section>
 
-		<section class="slide screenshot-slide">
-			<h2>ПО для обработки изображений</h2>
-			<figure><img src="pictures/photoshop.jpg" alt="Photoshop"><figcaption>Интерфейс Adobe Photoshop</figcaption></figure>
-		</section>
+    <!-- Скриншоты ПО -->
+    <section class="slide screenshot-slide">
+        <h2>ПО для монтажа видео</h2>
+        <figure>
+            <img src="pictures/premier.jpg" alt="Premier Pro">
+            <figcaption>Интерфейс Adobe Premier Pro</figcaption>
+        </figure>
+    </section>
 
-		<section class="slide screenshot-slide">
-			<h2>ПО для визуальных эффектов</h2>
-			<figure><img src="pictures/afterEffects.jpg" alt="After Effects"><figcaption>Интерфейс Adobe After Effects</figcaption></figure>
-		</section>
+    <section class="slide screenshot-slide">
+        <h2>ПО для обработки изображений</h2>
+        <figure>
+            <img src="pictures/photoshop.jpg" alt="Photoshop">
+            <figcaption>Интерфейс Adobe Photoshop</figcaption>
+        </figure>
+    </section>
 
-		<section class="slide screenshot-slide">
-			<h2>ПО для анимации</h2>
-			<figure><img src="pictures/maya.jpg" alt="Maya"><figcaption>Интерфейс Maya Autodesk</figcaption></figure>
-		</section>
+    <section class="slide screenshot-slide">
+        <h2>ПО для визуальных эффектов</h2>
+        <figure>
+            <img src="pictures/afterEffects.jpg" alt="After Effects">
+            <figcaption>Интерфейс Adobe After Effects</figcaption>
+        </figure>
+    </section>
 
-		<section class="slide screenshot-slide">
-			<h2>ПО для 3D-моделирования</h2>
-			<figure><img src="pictures/blender.png" alt="Blender"><figcaption>Интерфейс Blender</figcaption></figure>
-		</section>
+    <section class="slide screenshot-slide">
+        <h2>ПО для анимации</h2>
+        <figure>
+            <img src="pictures/maya.jpg" alt="Maya">
+            <figcaption>Интерфейс Maya Autodesk</figcaption>
+        </figure>
+    </section>
 
-		<section class="slide" id="virtual-production">
-			<h2>Виртуальное производство</h2>
-			<p>Совмещение виртуального пространства, компьютерных эффектов с реальной съемкой в реальном времени</p>
-			<img class="slide-img" src="pictures/virtual.jpg" alt="Виртуальное производство">
-		</section>
+    <section class="slide screenshot-slide">
+        <h2>ПО для 3D-моделирования</h2>
+        <figure>
+            <img src="pictures/blender.png" alt="Blender">
+            <figcaption>Интерфейс Blender</figcaption>
+        </figure>
+    </section>
 
-		<section class="slide" id="video-slide">
-			<video autoplay muted loop playsinline>
-				<source src="pictures/virtual.mp4" type="video/mp4">
-			</video>
-		</section>
+    <!-- Виртуальное производство -->
+    <section class="slide" id="virtual-production">
+        <h2>Виртуальное производство</h2>
+        <p>
+            Совмещение виртуального пространства, компьютерных эффектов
+            с реальной съемкой в реальном времени
+        </p>
+        <img src="pictures/virtual.jpg" alt="Виртуальное производство">
+    </section>
 
-		<section class="slide" id="rendering">
-			<h2>Рендеринг</h2>
-			<img class="single-render-img" src="pictures/render.jpg" alt="Виды рендеринга">
-		</section>
+    <!-- Видео -->
+    <section class="slide" id="video-slide">
+        <video autoplay muted loop playsinline>
+            <source src="pictures/virtual.mp4" type="video/mp4">
+            Ваш браузер не поддерживает видео.
+        </video>
+    </section>
 
-		<section class="slide" id="video-formats">
-			<h2>Форматы видео</h2>
-			<ol class="clean-list">
-				<li><b>Разрешение видео</b>
-					<ul>
-						<li>Full HD (1920 × 1080) — стандартное качество.</li>
-						<li>4K (3840 × 2160) — высокая детализация для кинопроизводства.</li>
-						<li>8K (7680 × 4320) — сверхвысокое разрешение, требующее больших ресурсов.</li>
-					</ul>
-				</li>
-				<li><b>Частота кадров (FPS)</b>
-					<ul>
-						<li>24 FPS — традиционный стандарт кинематографа.</li>
-						<li>30 FPS — телевидение и интернет-видео.</li>
-						<li>60+ FPS — плавное движение и замедленная съёмка.</li>
-					</ul>
-				</li>
-				<li><b>Кодеки и форматы</b>
-					<ul>
-						<li>H.264 / H.265 — эффективное сжатие видео.</li>
-						<li>ProRes / DNxHR — профессиональный монтаж и постпродакшен.</li>
-						<li>RAW — исходные данные для гибкой обработки изображения.</li>
-					</ul>
-				</li>
-			</ol>
-		</section>
+    <!-- Рендеринг -->
+    <section class="slide" id="rendering">
+        <h2>Рендеринг</h2>
+        <img src="pictures/render.jpg" alt="Виды рендеринга">
+    </section>
 
-		<section class="slide" id="video-formats-table">
-			<h2>Сравнение видеоформатов</h2>
-			<table class="format-table">
-				<thead>
-					<tr><th>Формат</th><th>Сжатие</th><th>Качество</th><th>Основное применение</th></tr>
-				</thead>
-				<tbody>
-					<tr><td>MP4 (H.264)</td><td>Высокое</td><td>Хорошее</td><td>Интернет, YouTube</td></tr>
-					<tr><td>MP4 (H.265)</td><td>Очень высокое</td><td>Высокое</td><td>4K/8K, HDR</td></tr>
-					<tr><td>MOV (ProRes)</td><td>Низкое</td><td>Очень высокое</td><td>Монтаж кино</td></tr>
-					<tr><td>MXF (DNxHR)</td><td>Низкое</td><td>Очень высокое</td><td>ТВ и монтаж</td></tr>
-					<tr><td>RAW</td><td>Отсутствует</td><td>Максимальное</td><td>Цветокоррекция и VFX</td></tr>
-					<tr><td>AVI</td><td>Зависит</td><td>Зависит</td><td>Архивирование</td></tr>
-				</tbody>
-			</table>
-		</section>
+    <!-- Форматы видео -->
+    <section class="slide" id="video-formats">
+        <h2>Форматы видео</h2>
+        <ol class="clean-list">
+            <li>
+                <b>Разрешение видео</b>
+                <ul>
+                    <li>Full HD (1920 × 1080) — стандартное качество.</li>
+                    <li>4K (3840 × 2160) — высокая детализация для кинопроизводства.</li>
+                    <li>8K (7680 × 4320) — сверхвысокое разрешение, требующее больших ресурсов.</li>
+                </ul>
+            </li>
+            <li>
+                <b>Частота кадров (FPS)</b>
+                <ul>
+                    <li>24 FPS — традиционный стандарт кинематографа.</li>
+                    <li>30 FPS — телевидение и интернет-видео.</li>
+                    <li>60+ FPS — плавное движение и замедленная съёмка.</li>
+                </ul>
+            </li>
+            <li>
+                <b>Кодеки и форматы</b>
+                <ul>
+                    <li>H.264 / H.265 — эффективное сжатие видео.</li>
+                    <li>ProRes / DNxHR — профессиональный монтаж и постпродакшен.</li>
+                    <li>RAW — исходные данные для гибкой обработки изображения.</li>
+                </ul>
+            </li>
+        </ol>
+    </section>
 
-		<section class="slide" id="vfx-techniques">
-			<h2>Основные приемы создания VFX</h2>
-			<ol class="vfx-list">
-				<li><b>Хромакей</b> — удаление фона.</li>
-				<li><b>Ротоскопинг</b> — покадровое выделение.</li>
-				<li><b>Композиция</b> — объединение слоев.</li>
-				<li><b>Трекинг движения</b> — привязка графики.</li>
-				<li><b>Компьютерная графика</b> — создание объектов и эффектов.</li>
-			</ol>
-		</section>
+    <!-- Сравнение видеоформатов -->
+    <section class="slide" id="video-formats-table">
+        <h2>Сравнение видеоформатов</h2>
+        <table class="format-table">
+            <thead>
+                <tr>
+                    <th>Формат</th>
+                    <th>Сжатие</th>
+                    <th>Качество</th>
+                    <th>Основное применение</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>MP4 (H.264)</td>
+                    <td>Высокое</td>
+                    <td>Хорошее</td>
+                    <td>Интернет, YouTube</td>
+                </tr>
+                <tr>
+                    <td>MP4 (H.265)</td>
+                    <td>Очень высокое</td>
+                    <td>Высокое</td>
+                    <td>4K/8K, HDR</td>
+                </tr>
+                <tr>
+                    <td>MOV (ProRes)</td>
+                    <td>Низкое</td>
+                    <td>Очень высокое</td>
+                    <td>Монтаж кино</td>
+                </tr>
+                <tr>
+                    <td>MXF (DNxHR)</td>
+                    <td>Низкое</td>
+                    <td>Очень высокое</td>
+                    <td>ТВ и монтаж</td>
+                </tr>
+                <tr>
+                    <td>RAW</td>
+                    <td>Отсутствует</td>
+                    <td>Максимальное</td>
+                    <td>Цветокоррекция и VFX</td>
+                </tr>
+                <tr>
+                    <td>AVI</td>
+                    <td>Зависит</td>
+                    <td>Зависит</td>
+                    <td>Архивирование</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
 
-		<section class="slide" id="pipeline">
-			<h2>Пример пайплайна</h2>
-			<div class="pipeline">
-				<svg class="pipeline-line" viewBox="0 0 1000 300" preserveAspectRatio="none">
-					<path d="M 125 40 H 875 V 150 H 125 V 180 H 875" />
-				</svg>
-				<div class="pipeline-row pipeline-top">
-					<div class="pipeline-step"><span class="marker"></span><span class="stem"></span><span class="small-dot"></span><span class="label">Идея</span></div>
-					<div class="pipeline-step"><span class="marker"></span><span class="stem"></span><span class="small-dot"></span><span class="label">Раскадровка</span></div>
-					<div class="pipeline-step"><span class="marker"></span><span class="stem"></span><span class="small-dot"></span><span class="label">Аниматик</span></div>
-					<div class="pipeline-step"><span class="marker"></span><span class="stem"></span><span class="small-dot"></span><span class="label">Съемка</span></div>
-				</div>
-				<div class="pipeline-row pipeline-bottom">
-					<div class="pipeline-step"><span class="marker"></span><span class="stem"></span><span class="small-dot"></span><span class="label">Окружение</span></div>
-					<div class="pipeline-step"><span class="marker"></span><span class="stem"></span><span class="small-dot"></span><span class="label">Композитинг</span></div>
-					<div class="pipeline-step"><span class="marker"></span><span class="stem"></span><span class="small-dot"></span><span class="label">Постобработка</span></div>
-					<div class="pipeline-step"><span class="marker"></span><span class="stem"></span><span class="small-dot"></span><span class="label">Рендер</span></div>
-				</div>
-			</div>
-		</section>
+    <!-- VFX -->
+    <section class="slide" id="vfx-techniques">
+        <h2>Основные приемы создания VFX</h2>
+        <ol class="vfx-list">
+            <li><b>Хромакей</b> — удаление фона.</li>
+            <li><b>Ротоскопинг</b> — покадровое выделение.</li>
+            <li><b>Композиция</b> — объединение слоев.</li>
+            <li><b>Трекинг движения</b> — привязка графики.</li>
+            <li><b>Компьютерная графика</b> — создание объектов и эффектов.</li>
+        </ol>
+    </section>
 
-		<section class="slide" id="conclusion">
-			<h2>Вывод</h2>
-			<p style="font-size:0.8em; text-align:justify; margin-bottom:1em;">Программные средства создания и обработки видеоизображений играют важную роль в современном кинематографе и анимации. Развитие технологий рендеринга, виртуального производства и искусственного интеллекта расширяет творческие возможности и повышает эффективность кинопроизводства.</p>
-			<p style="font-size:0.8em; text-align:justify;">Таким образом, современные программные средства являются неотъемлемой частью киноиндустрии, объединяя технологии и творчество для создания реалистичных, выразительных и визуально сложных произведений.</p>
-		</section>
+    <!-- Пайплайн -->
+    <section class="slide" id="pipeline">
+        <h2>Пример пайплайна</h2>
 
-		<footer class="badge">
-			<a href="https://github.com/shower/shower">Fork me <span>on GitHub</span></a>
-		</footer>
-		<div class="progress"></div>
-	</div>
+        <div class="pipeline">
 
-	<script>
-		document.addEventListener('DOMContentLoaded', function() {
-			var slides = document.querySelectorAll('.slide');
-			var progress = document.querySelector('.progress');
-			var currentSlide = 0;
+            <svg class="pipeline-line"
+                 viewBox="0 0 1000 300"
+                 preserveAspectRatio="none"
+                 aria-hidden="true">
+                <path d="
+                    M 125 40
+                    H 950
+                    V 130
+                    H 50
+                    V 160
+                    H 875
+                "/>
+            </svg>
 
-			function update() {
-				for (var i = 0; i < slides.length; i++) {
-					slides[i].classList.remove('active');
-				}
-				slides[currentSlide].classList.add('active');
-				if (progress) {
-					progress.style.width = ((currentSlide + 1) / slides.length * 100) + '%';
-				}
-			}
+            <!-- Верхний ряд -->
+            <div class="pipeline-row pipeline-top">
 
-			document.addEventListener('keydown', function(e) {
-				if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ' || e.key === 'PageDown') {
-					if (currentSlide < slides.length - 1) { currentSlide++; update(); }
-					e.preventDefault();
-				} else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp' || e.key === 'PageUp') {
-					if (currentSlide > 0) { currentSlide--; update(); }
-					e.preventDefault();
-				}
-			});
+                <div class="pipeline-step">
+                    <span class="marker"></span>
+                    <span class="stem"></span>
+                    <span class="small-dot"></span>
+                    <span class="label">Идея</span>
+                </div>
 
-			document.addEventListener('click', function(e) {
-				if (e.target.tagName !== 'A') {
-					if (e.clientX > window.innerWidth / 2) {
-						if (currentSlide < slides.length - 1) { currentSlide++; update(); }
-					} else {
-						if (currentSlide > 0) { currentSlide--; update(); }
-					}
-				}
-			});
+                <div class="pipeline-step">
+                    <span class="marker"></span>
+                    <span class="stem"></span>
+                    <span class="small-dot"></span>
+                    <span class="label">Раскадровка</span>
+                </div>
 
-			update();
-		});
-	</script>
+                <div class="pipeline-step">
+                    <span class="marker"></span>
+                    <span class="stem"></span>
+                    <span class="small-dot"></span>
+                    <span class="label">Аниматик</span>
+                </div>
+
+                <div class="pipeline-step">
+                    <span class="marker"></span>
+                    <span class="stem"></span>
+                    <span class="small-dot"></span>
+                    <span class="label">Съемка</span>
+                </div>
+
+            </div>
+
+            <!-- Нижний ряд -->
+            <div class="pipeline-row pipeline-bottom">
+
+                <div class="pipeline-step">
+                    <span class="marker"></span>
+                    <span class="stem"></span>
+                    <span class="small-dot"></span>
+                    <span class="label">Окружение</span>
+                </div>
+
+                <div class="pipeline-step">
+                    <span class="marker"></span>
+                    <span class="stem"></span>
+                    <span class="small-dot"></span>
+                    <span class="label">Композитинг</span>
+                </div>
+
+                <div class="pipeline-step">
+                    <span class="marker"></span>
+                    <span class="stem"></span>
+                    <span class="small-dot"></span>
+                    <span class="label">Постобработка</span>
+                </div>
+
+                <div class="pipeline-step">
+                    <span class="marker"></span>
+                    <span class="stem"></span>
+                    <span class="small-dot"></span>
+                    <span class="label">Рендер</span>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Вывод -->
+    <section class="slide" id="conclusion">
+        <h2>Вывод</h2>
+
+        <p style="font-size:0.8em; text-align:justify; margin-bottom:1em;">
+            Программные средства создания и обработки видеоизображений
+            играют важную роль в современном кинематографе и анимации.
+            Развитие технологий рендеринга, виртуального производства
+            и искусственного интеллекта расширяет творческие возможности
+            и повышает эффективность кинопроизводства.
+        </p>
+
+        <p style="font-size:0.8em; text-align:justify;">
+            Таким образом, современные программные средства являются
+            неотъемлемой частью киноиндустрии, объединяя технологии
+            и творчество для создания реалистичных, выразительных
+            и визуально сложных произведений.
+        </p>
+    </section>
+
+    <!-- Интерфейс -->
+    <footer class="badge">
+        <a href="https://github.com/shower/shower">
+            Fork me <span>on GitHub</span>
+        </a>
+    </footer>
+
+    <div class="progress"></div>
+
+</div>
+
+<!-- Навигация -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        var slides = document.querySelectorAll('.slide');
+        var progress = document.querySelector('.progress');
+        var currentSlide = 0;
+
+        function update() {
+
+            for (var i = 0; i < slides.length; i++) {
+                slides[i].classList.remove('active');
+            }
+
+            slides[currentSlide].classList.add('active');
+
+            if (progress) {
+                progress.style.width =
+                    ((currentSlide + 1) / slides.length * 100) + '%';
+            }
+
+            /* Запуск видео при открытии соответствующего слайда */
+            var videos = document.querySelectorAll('#video-slide video');
+
+            videos.forEach(function(video) {
+                if (slides[currentSlide].id === 'video-slide') {
+                    video.play().catch(function() {});
+                } else {
+                    video.pause();
+                }
+            });
+        }
+
+        /* Переключение клавишами */
+        document.addEventListener('keydown', function(e) {
+
+            if (
+                e.key === 'ArrowRight' ||
+                e.key === 'ArrowDown' ||
+                e.key === ' ' ||
+                e.key === 'PageDown'
+            ) {
+                if (currentSlide < slides.length - 1) {
+                    currentSlide++;
+                    update();
+                }
+
+                e.preventDefault();
+
+            } else if (
+                e.key === 'ArrowLeft' ||
+                e.key === 'ArrowUp' ||
+                e.key === 'PageUp'
+            ) {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    update();
+                }
+
+                e.preventDefault();
+            }
+        });
+
+        /* Переключение мышью */
+        document.addEventListener('click', function(e) {
+
+            if (e.target.closest('a')) {
+                return;
+            }
+
+            if (e.clientX > window.innerWidth / 2) {
+
+                if (currentSlide < slides.length - 1) {
+                    currentSlide++;
+                    update();
+                }
+
+            } else {
+
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    update();
+                }
+            }
+        });
+
+        update();
+    });
+</script>
+
 </body>
 </html>
