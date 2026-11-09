@@ -120,17 +120,139 @@
 		#video-formats-table th { border-bottom: 2px solid rgba(255,255,255,0.3); }
 
 		/* Пайплайн */
-		#pipeline .pipeline { position: relative; width: 100%; height: 300px; margin-top: 2em; }
-		#pipeline .pipeline-line { position: absolute; inset: 0; width: 100%; height: 100%; }
-		#pipeline .pipeline-line path { fill: none; stroke: #bdb69d; stroke-width: 2; }
-		#pipeline .pipeline-row { position: absolute; left: 0; width: 100%; display: flex; justify-content: space-between; }
-		#pipeline .pipeline-top { top: 40px; }
-		#pipeline .pipeline-bottom { top: 180px; }
-		#pipeline .pipeline-step { position: relative; flex: 1; text-align: center; }
-		#pipeline .marker { display: block; width: 16px; height: 16px; background: #e00012; border-radius: 50%; margin: 0 auto; position: relative; z-index: 2; }
-		#pipeline .stem { display: block; width: 2px; height: 30px; background: #bdb69d; margin: 0 auto; }
-		#pipeline .small-dot { display: block; width: 6px; height: 6px; background: #bdb69d; border-radius: 50%; margin: 0 auto; }
-		#pipeline .label { display: block; margin-top: 10px; font-size: 0.7em; font-weight: bold; }
+		#pipeline {
+				--line-color: #bdb69d;
+				--point-color: #e00012;
+				--text-color: #ffffff;
+
+				position: relative;
+			}
+
+			#pipeline .pipeline {
+				position: relative;
+				width: 92%;
+				height: 360px;
+				margin: 30px auto 0;
+			}
+
+			/* Непрерывная линия-змейка */
+			#pipeline .pipeline-line {
+				position: absolute;
+				inset: 0;
+				width: 100%;
+				height: 100%;
+				overflow: visible;
+				z-index: 0;
+				pointer-events: none;
+			}
+
+			#pipeline .pipeline-line path {
+				fill: none;
+				stroke: var(--line-color);
+				stroke-width: 1.3;
+				vector-effect: non-scaling-stroke;
+				stroke-linejoin: miter;
+				stroke-linecap: square;
+			}
+
+			/* Сетка этапов */
+			#pipeline .pipeline-row {
+				position: absolute;
+				left: 0;
+				width: 100%;
+				display: grid;
+				grid-template-columns: repeat(4, minmax(0, 1fr));
+				z-index: 1;
+			}
+
+			#pipeline .pipeline-top .marker {
+				top: 50px;
+				transform: translate(-50%, -50%);
+			}
+
+			#pipeline .pipeline-bottom {
+				top: 245px;
+			}
+
+			#pipeline .pipeline-step {
+				position: relative;
+				min-width: 0;
+				height: 1px;
+				text-align: center;
+			}
+
+			/* Большая красная точка */
+			#pipeline .marker {
+				position: absolute;
+				left: 50%;
+				top: 50px;
+				width: 19px;
+				height: 19px;
+				background: var(--point-color);
+				border-radius: 50%;
+				transform: translate(-50%, -50%);
+				z-index: 3;
+			}
+
+			#pipeline .pipeline-bottom .marker {
+				top: 0;
+				transform: translate(-50%, -50%);
+			}
+
+			#pipeline .pipeline-top .pipeline-step:last-child .marker {
+				top: 50px;
+				transform: translate(-50%, -50%);
+			}
+
+			/* Вертикальный отрезок */
+			#pipeline .stem {
+				position: absolute;
+				left: 50%;
+				top: 50px;
+				width: 1px;
+				height: 39px;
+				background: var(--line-color);
+				transform: translateX(-50%);
+			}
+
+			#pipeline .pipeline-bottom .stem {
+				top: 0;
+			}
+
+			/* Маленькая точка под отрезком */
+			#pipeline .small-dot {
+				position: absolute;
+				left: 50%;
+				top: 89px;
+				width: 7px;
+				height: 7px;
+				background: var(--line-color);
+				border-radius: 50%;
+				transform: translate(-50%, -50%);
+			}
+
+			#pipeline .pipeline-bottom .small-dot {
+				top: 39px;
+			}
+
+			/* Подписи этапов */
+			#pipeline .label {
+				position: absolute;
+				left: 50%;
+				top: 106px;
+				width: 96%;
+				transform: translateX(-50%);
+				color: var(--text-color);
+				font-size: 0.65em;
+				font-weight: 700;
+				line-height: 1.4;
+				text-align: center;
+				white-space: normal;
+			}
+
+			#pipeline .pipeline-bottom .label {
+				top: 52px;
+			}
 
 		/* Интерфейс */
 		.badge { position: absolute; top: 0; right: 0; z-index: 10; }
